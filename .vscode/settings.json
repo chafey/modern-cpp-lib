@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "random": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "string_view": "cpp",
+        "regex": "cpp"
     }
 }

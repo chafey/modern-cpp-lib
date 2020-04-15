@@ -3,9 +3,8 @@ An example of a C++ library built using modern cmake approach as described
 [here](https://cliutils.gitlab.io/modern-cmake/) and the related example
 [here](https://gitlab.com/CLIUtils/modern-cmake/tree/master/examples/extended-project)
 
-This simple project is used as part of a larger example that shows how to
-use cmake to import this library into another project as a git submodule
-and cross compile into WASM via EMSCRIPTEN.
+This project is used by [another project](https://github.com/chafey/modern-cpp-lib-js)
+which shows how to build JS/WASM code from a C++ library like this one via EMSCRIPTEN
 
 ## Dependencies
 
@@ -31,5 +30,10 @@ cmake --build build
 
 # to test
 ``` bash
-cmake --build build -t test
+cmake --build build -t test -- -e CTEST_OUTPUT_ON_FAILURE=1
+```
+
+# configure, build and run tests
+``` bash
+cmake -S . -B build && cmake --build build && cmake --build build -t test -- -e CTEST_OUTPUT_ON_FAILURE=1
 ```
