@@ -27,6 +27,25 @@ void readFile(std::string fileName, std::vector<unsigned char>& vec) {
 }
 
 
+enum { NS_PER_SECOND = 1000000000 };
+
+void sub_timespec(struct timespec t1, struct timespec t2, struct timespec *td)
+{
+    td->tv_nsec = t2.tv_nsec - t1.tv_nsec;
+    td->tv_sec  = t2.tv_sec - t1.tv_sec;
+    if (td->tv_sec > 0 && td->tv_nsec < 0)
+    {
+        td->tv_nsec += NS_PER_SECOND;
+        td->tv_sec--;
+    }
+    else if (td->tv_sec < 0 && td->tv_nsec > 0)
+    {
+        td->tv_nsec -= NS_PER_SECOND;
+        td->tv_sec++;
+    }
+}
+
+
 TEST_CASE("RLE Decode Happy Path", "[main]") {
     
     // Read RLE and uncompressed fixtures
@@ -40,8 +59,15 @@ TEST_CASE("RLE Decode Happy Path", "[main]") {
     destination.resize(512 * 512 * 2);
 
     // decode it
-    rleDecode(source, destination);
-
+    timespec start, finish, delta;
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
+    for(auto i=0; i < 1000; i++) {
+        rleDecode(source, destination);
+    }
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &finish);
+    sub_timespec(start, finish, &delta);
+    printf("RleDecode took %d.%.9ld seconds\n", (int)delta.tv_sec, delta.tv_nsec);
+    //std::cout<<diff(time1,time2).tv_sec<<":"<<diff(time1,time2).tv_nsec<<std::endl<<std::flush;
     // verify bytes match
     REQUIRE(destination.size() == uncompressed.size());
     for(size_t i=0; i < destination.size(); i++) {

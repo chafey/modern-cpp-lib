@@ -3,6 +3,14 @@ cmake_minimum_required(VERSION 3.15)
 project(ModernCPPLib, 
     LANGUAGES CXX)
 
+# set the build type if not specified
+set(default_build_type "Release")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
+  set(CMAKE_BUILD_TYPE "${default_build_type}")
+endif()
+
+
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 
