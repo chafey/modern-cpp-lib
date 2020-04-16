@@ -67,7 +67,7 @@ TEST_CASE("RLE Decode Happy Path", "[main]") {
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &finish);
     sub_timespec(start, finish, &delta);
     printf("RleDecode took %d.%.9ld seconds\n", (int)delta.tv_sec, delta.tv_nsec);
-    //std::cout<<diff(time1,time2).tv_sec<<":"<<diff(time1,time2).tv_nsec<<std::endl<<std::flush;
+
     // verify bytes match
     REQUIRE(destination.size() == uncompressed.size());
     for(size_t i=0; i < destination.size(); i++) {
