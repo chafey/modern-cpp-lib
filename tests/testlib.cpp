@@ -61,7 +61,7 @@ TEST_CASE("RLE Decode Happy Path", "[main]") {
     // decode it
     timespec start, finish, delta;
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start);
-    for(auto i=0; i < 1000; i++) {
+    for(auto i=0; i < 1; i++) {
         rleDecode(source, destination);
     }
     clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &finish);
